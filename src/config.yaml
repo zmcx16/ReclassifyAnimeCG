@@ -1,0 +1,2 @@
+config:
+  use_model_name: "resnext101_32x8d"

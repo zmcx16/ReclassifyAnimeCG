@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 
 img_data = torchvision.datasets.ImageFolder('I:\\work\\WORK\\ReclassifyAnimeCG\\ReclassifyAnimeCG\\data-sample\\classified-data',
                                             transform=transforms.Compose([
-                                                transforms.Scale(256),
+                                                # transforms.Resize((256, 256)),
+                                                transforms.Resize(256),
                                                 transforms.CenterCrop(224),
                                                 transforms.ToTensor()])
                                             )
