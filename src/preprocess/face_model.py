@@ -1,6 +1,4 @@
-import pathlib
-
-from facemodel.lbpcascade_animeface import LibCascadeAnimeFace
+from face.lbpcascade_animeface import LibCascadeAnimeFace
 
 
 class FaceModel:
@@ -16,6 +14,5 @@ class FaceModel:
 
 
 if __name__ == "__main__":
-    root_path = pathlib.Path(__file__).parent.resolve()
     model = FaceModel("lbpcascade_animeface")
-    model.show("I:\\work\\WORK\\ReclassifyAnimeCG\\ReclassifyAnimeCG\\data-sample\\classified-data\\Emilia\\1.jpg", None)
+    model.show("I:\\work\\WORK\\ReclassifyAnimeCG\\ReclassifyAnimeCG\\data-sample\\train\\Emilia\\1.jpg", None)

@@ -1,6 +1,6 @@
 import cv2
 import os.path
-from facemodel.face_abc import Face
+from face.face_abc import Face
 
 
 class LibCascadeAnimeFace(Face):
