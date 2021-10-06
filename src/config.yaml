@@ -2,6 +2,8 @@ config:
   use_model_name: "resnext101_32x8d"
   use_gpu_num: 1
   train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
+  train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
+  label_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample"
   test_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/test"
   output_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/output"
   predict_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/predict"
@@ -12,10 +14,13 @@ config:
   delete_duplicate_images_before_training: true
   models_parameter:
     resnext101_32x8d:
+      model_url: "https://download.pytorch.org/models/ig_resnext101_32x8-c38310e5.pth"
+      optimizer_algo: 'SGD'
+      loss_algo: 'CrossEntropyLoss'
       batch_size: 16
       image_input_size: 300
       max_epoch: 100
       resume_epoch: 0
-      weight_decay: 5e-4
+      weight_decay: 5.e-4
       momentum: 0.9
-      lr: 1e-3
+      lr: 1.e-3

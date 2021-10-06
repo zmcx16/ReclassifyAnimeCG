@@ -6,21 +6,19 @@ import pathlib
 from config import Config
 
 if __name__ == '__main__':
-    current_path = pathlib.Path(__file__).parent.resolve()
-
     print('load config')
     cfg = Config()
     cfg.show()
-    cfg_obj = cfg.get()
+    cfg_obj = cfg.get()['config']
 
-    train_path = cfg_obj['config']['train_data_path']
-    test_path = cfg_obj['config']['test_data_path']
+    train_path = cfg_obj['train_data_path']
+    test_path = cfg_obj['test_data_path']
     labels = os.listdir(train_path)
 
-    cv_train_ratio = cfg_obj['config']['cv_train_ratio']
-    cv_val_ratio = cfg_obj['config']['cv_val_ratio']
+    cv_train_ratio = cfg_obj['cv_train_ratio']
+    cv_val_ratio = cfg_obj['cv_val_ratio']
 
-    label_path = current_path
+    label_path = cfg_obj['label_path']
 
     train_label_path = os.path.join(label_path, 'train.txt')
     if os.path.isfile(train_label_path):
