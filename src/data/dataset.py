@@ -2,6 +2,8 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
+
 from data import get_train_transform, get_test_transform
 
 
