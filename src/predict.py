@@ -117,7 +117,7 @@ if __name__ == "__main__":
                 if not os.path.isfile(output_path):
                     break
                 duplicate_i += 1
-                duplicate_text = ' (' + duplicate_i + ')'
+                duplicate_text = ' (' + str(duplicate_i) + ')'
 
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             shutil.copy(img_path, output_path)

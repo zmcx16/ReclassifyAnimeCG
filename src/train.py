@@ -58,7 +58,6 @@ if __name__ == "__main__":
     if torch.cuda.is_available():
         model.cuda()
 
-    optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=lr)
     if optimizer_algo == 'SGD':
         optimizer = optim.SGD(model.parameters(), lr=lr,
                               momentum=momentum, weight_decay=weight_decay)
