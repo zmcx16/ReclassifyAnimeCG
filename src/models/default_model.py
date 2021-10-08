@@ -30,11 +30,15 @@ class DefaultModel(abc.ABC):
         os.makedirs(save_folder, exist_ok=True)
         train_model_path = os.path.join(save_folder, self.model_name+'.pth')
 
+        index_label_path = os.path.join(cfg['label_path'], 'index.txt')
+        with open(index_label_path,  'r')as f:
+            num_classes = len(f.readlines())
+
         # build the network model
         if not self.model_cfg['resume_epoch']:
             print('****** Training {} ****** '.format(self.model_name))
             print('****** loading the Imagenet pretrained weights ****** ')
-            model = ModelFuncDict[self.model_name](num_classes=4, model_path=train_model_path, model_url=model_url)
+            model = ModelFuncDict[self.model_name](num_classes=num_classes, model_path=train_model_path, model_url=model_url)
             ct = 0
             for child in model.children():
                 ct += 1

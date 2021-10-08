@@ -4,12 +4,12 @@ config:
   train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
   train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
   label_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample"
-  test_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/test"
   output_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/output"
-  predict_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/predict"
+  predict_use_test_txt: false
+  predict_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/predict" # use when predict_use_test_txt = false
   cv_train_ratio: 0.7
   cv_val_ratio: 0.15 # the test data will be generate by 1 - cv_train_ratio - cv_val_ratio
-  copy_test_result_to_output_path: false
+  copy_predit_result_to_output_path: true
   filter_train_data_in_test: true
   delete_duplicate_images_before_training: true
   models_parameter:

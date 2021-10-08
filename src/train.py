@@ -10,10 +10,22 @@ from utils import adjust_learning_rate_cosine, adjust_learning_rate_step
 from models.default_model import DefaultModel
 
 
+def save_model(use_gpu_num, model, save_path):
+    if use_gpu_num > 1:
+        checkpoint = {'model': model.module,
+                      'model_state_dict': model.module.state_dict(),
+                      # 'optimizer_state_dict': optimizer.state_dict(),
+                      'epoch': epoch}
+        torch.save(checkpoint, save_path)
+    else:
+        checkpoint = {'model': model,
+                      'model_state_dict': model.state_dict(),
+                      # 'optimizer_state_dict': optimizer.state_dict(),
+                      'epoch': epoch}
+        torch.save(checkpoint, save_path)
+
+
 if __name__ == "__main__":
-
-    current_path = pathlib.Path(__file__).parent.resolve()
-
     print('load config')
     cfg = Config()
     cfg.show()
@@ -86,18 +98,7 @@ if __name__ == "__main__":
             loss = 0
             epoch += 1
             if epoch % 5 == 0 and epoch > 0:
-                if use_gpu_num > 1:
-                    checkpoint = {'model': model.module,
-                                'model_state_dict': model.module.state_dict(),
-                                # 'optimizer_state_dict': optimizer.state_dict(),
-                                'epoch': epoch}
-                    torch.save(checkpoint, os.path.join(save_folder, 'epoch_{}.pth'.format(epoch)))
-                else:
-                    checkpoint = {'model': model,
-                                'model_state_dict': model.state_dict(),
-                                # 'optimizer_state_dict': optimizer.state_dict(),
-                                'epoch': epoch}
-                    torch.save(checkpoint, os.path.join(save_folder, 'epoch_{}.pth'.format(epoch)))
+                save_model(use_gpu_num, model, os.path.join(save_folder, 'epoch_{}.pth'.format(epoch)))
 
         if iteration in stepvalues:
             step_index += 1
@@ -139,3 +140,4 @@ if __name__ == "__main__":
             print('Epoch:' + repr(epoch) + ' || epochiter: ' + repr(iteration % epoch_size) + '/' + repr(epoch_size)
                   + '|| Totel iter ' + repr(iteration) + ' || Loss: %.6f||' % (loss.item()) + 'ACC: %.3f ||' %(train_acc * 100) + 'LR: %.8f' % (lr))
 
+    save_model(use_gpu_num, model, os.path.join(save_folder, 'final.pth'))

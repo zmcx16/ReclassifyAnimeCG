@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 cmd
 /.idea
+/data-sample/train_weight

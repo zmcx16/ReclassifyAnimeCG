@@ -1,0 +1,26 @@
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Beatrice\066f2aa24052009e5b832bd458e250fa.jpg|0
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Beatrice\images (1).jpg|0
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Beatrice\05fc58e98e0b7ee498ad013a94018a73.jpg|0
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Emilia\292aa2eaa72e8d30db38662e7a31d4e6.jpg|1
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Emilia\00a13386cbb5e0015fd8ba8fbe5640f1.jpg|1
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Emilia\c4e89cb5d73db2e4b557a859c303cf5a.jpg|1
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Emilia\0809843e78063b259f7442987aa0fb6b.jpg|1
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Emilia\95740f12734d05e5dec7f70471c367dd.jpg|1
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\1aa01c4706ab2327215fffbdcec32941.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\40d1f4f596ba7951341c2a0ca3d7f33f.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\2e09a7ef9a6460b887f10b006034a1d5.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\9ab98b40ab4372989b62b9b71ddddb20.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\3fb96df7fb2458a6a399f97807c5aceb.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Others\642f9c4eb321158e3262097f52cbae30.jpg|2
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\de54c36f44a911478468259fd9edc74f.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\36.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\a37922485d385109330fbb7327a08b73.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\8204af9dfea8401d4b3bb2eab0ad01c6.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\bbee33a59ef7b3777d99b76f7c9caadf.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Ram\71fbf374d27c1544a945e97ef7a47c7a.jpg|3
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\fb21774eb4a24e3b91a21394e9c05bb3.jpg|4
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\2.jpg|4
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\51.jpg|4
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\4f97a00b9df3f00ec5c1ee3dc406a149.jpg|4
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\0a36575c6c237874fa7199e719ad7cc8.jpg|4
+I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train\Rem\f1cc45613e0dcea7ff18e5faa7649239.jpg|4
