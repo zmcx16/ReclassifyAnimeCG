@@ -1,3 +1,4 @@
+import sys
 import os
 import pathlib
 import torch
@@ -29,12 +30,18 @@ if __name__ == "__main__":
     print('load config')
     cfg = Config()
     cfg.show()
-    cfg_obj = cfg.get()['config']
-    label_path = cfg_obj['label_path']
-    model_name = cfg_obj['use_model_name']
-    save_folder = os.path.join(cfg_obj['train_model_path'], model_name)
-    use_gpu_num = cfg_obj['use_gpu_num']
-    model_cfg = cfg_obj['models_parameter'][model_name]
+    cfg_common = cfg.get()['config']['common']
+    cfg_train = cfg.get()['config']['train']
+    cfg_models_parameter = cfg.get()['config']['models_parameter']
+
+    label_path = cfg_common['label_path']
+    model_name = cfg_common['use_model_name']
+    save_folder = os.path.join(cfg_common['train_model_path'], model_name)
+    use_gpu_num = cfg_common['use_gpu_num']
+
+    start_save_best_model = cfg_train['start_save_best_model']
+
+    model_cfg = cfg_models_parameter[model_name]
     optimizer_algo = model_cfg['optimizer_algo']
     loss_algo = model_cfg['loss_algo']
     batch_size = model_cfg['batch_size']
@@ -45,7 +52,7 @@ if __name__ == "__main__":
     momentum = model_cfg['momentum']
     lr = model_cfg['lr']
 
-    model = DefaultModel().load_model(cfg_obj)
+    model = DefaultModel().load_model(cfg.get()['config'])
     # print(model)
 
     if use_gpu_num > 1:
@@ -86,6 +93,8 @@ if __name__ == "__main__":
 
     stepvalues = (10 * epoch_size, 20 * epoch_size, 30 * epoch_size)
     step_index = 0
+
+    min_loss = sys.float_info.max
 
     model.train()
     for iteration in range(start_iter, max_iter):
@@ -134,9 +143,12 @@ if __name__ == "__main__":
 
         # print(train_correct.type())
         train_acc = (train_correct.float()) / batch_size
-
+        loss_val = loss.item()
         if iteration % 10 == 0:
             print('Epoch:' + repr(epoch) + ' || epochiter: ' + repr(iteration % epoch_size) + '/' + repr(epoch_size)
-                  + '|| Totel iter ' + repr(iteration) + ' || Loss: %.6f||' % (loss.item()) + 'ACC: %.3f ||' %(train_acc * 100) + 'LR: %.8f' % (lr))
+                  + '|| Totel iter ' + repr(iteration) + ' || Loss: %.6f||' % loss_val + 'ACC: %.3f ||' % (train_acc * 100) + 'LR: %.8f' % (lr))
 
-    save_model(use_gpu_num, model, os.path.join(save_folder, 'final.pth'))
+        if epoch >= max_epoch * start_save_best_model and loss_val < min_loss:
+            min_loss = loss_val
+            print('got min loss {}, update the final.pth'.format(min_loss))
+            save_model(use_gpu_num, model, os.path.join(save_folder, 'final.pth'))

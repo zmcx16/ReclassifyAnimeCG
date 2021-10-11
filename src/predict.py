@@ -1,10 +1,12 @@
-import os
 import glob
-import torch
+import os
 import shutil
-from PIL import Image
+
 import pandas as pd
+import torch
+from PIL import Image
 from tqdm import tqdm
+
 from config import Config
 from data import get_test_transform
 
@@ -57,26 +59,30 @@ if __name__ == "__main__":
     print('load config')
     cfg = Config()
     cfg.show()
-    cfg_obj = cfg.get()['config']
-    label_path = cfg_obj['label_path']
-    index_label_path = os.path.join(label_path, 'index.txt')
-    copy_predit_result_to_output_path = cfg_obj['copy_predit_result_to_output_path']
-    output_data_path = cfg_obj['output_data_path']
+    cfg_common = cfg.get()['config']['common']
+    cfg_predidt = cfg.get()['config']['predidt']
+    cfg_models_parameter = cfg.get()['config']['models_parameter']
 
-    model_name = cfg_obj['use_model_name']
-    model_cfg = cfg_obj['models_parameter'][model_name]
-    model_folder = os.path.join(cfg_obj['train_model_path'], model_name)
+
+    label_path = cfg_common['label_path']
+    index_label_path = os.path.join(label_path, 'index.txt')
+    copy_predit_result_to_output_path = cfg_predidt['copy_predit_result_to_output_path']
+    output_data_path = cfg_common['output_data_path']
+
+    model_name = cfg_common['use_model_name']
+    model_cfg = cfg_models_parameter[model_name]
+    model_folder = os.path.join(cfg_common['train_model_path'], model_name)
     trained_model_path = os.path.join(model_folder, 'final.pth')
     image_input_size = model_cfg['image_input_size']
 
-    predict_use_test_txt = cfg_obj['predict_use_test_txt']
+    predict_use_test_txt = cfg_predidt['use_test_txt']
     if predict_use_test_txt:
         test_label_path = os.path.join(label_path, 'test.txt')
         with open(test_label_path,  'r')as f:
             imgs = f.readlines()
     else:
         # generate imgs list
-        predict_data_path = cfg_obj['predict_data_path']
+        predict_data_path = cfg_common['predict_data_path']
         img_list = []
         for file_type in ('*.png', '*.jpg', '*.bmp'):
             img_list.extend(glob.iglob(os.path.join(predict_data_path, file_type)))
@@ -109,7 +115,7 @@ if __name__ == "__main__":
 
         for index, img_path in enumerate(img_path_list):
 
-            file_name, extension = os.path.basename(img_path).split('.')
+            file_name, extension = os.path.basename(img_path).rsplit('.', 1)
             duplicate_i = 0
             duplicate_text = ''
             while True:

@@ -199,6 +199,12 @@ class EfficientNet(nn.Module):
         x = self._fc(x)
         return x
 
+    def get_fc(self):
+        return self._fc
+
+    def set_fc(self, fc):
+        self._fc = fc
+
     @classmethod
     def from_name(cls, model_name, override_params=None):
         cls._check_model_name_is_valid(model_name)
