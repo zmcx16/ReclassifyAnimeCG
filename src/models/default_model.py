@@ -23,10 +23,11 @@ class DefaultModel(abc.ABC):
         self.model_name = cfg_common['use_model_name']
         self.model_cfg = cfg_models_parameter[self.model_name]
         self.resume_epoch = self.model_cfg['resume_epoch']
+        self.use_default_pretrained_model = self.model_cfg['use_default_pretrained_model']
 
         save_folder = os.path.join(cfg_common['train_model_path'], cfg_common['use_model_name'])
         os.makedirs(save_folder, exist_ok=True)
-        #train_model_path = os.path.join(save_folder, self.model_name+'.pth')
+        train_model_path = os.path.join(save_folder, self.model_name+'.pth')
 
         index_label_path = os.path.join(cfg_common['label_path'], 'index.txt')
         with open(index_label_path,  'r')as f:
@@ -36,7 +37,8 @@ class DefaultModel(abc.ABC):
         if not self.model_cfg['resume_epoch']:
             print('****** Training {} ****** '.format(self.model_name))
             print('****** loading the Imagenet pretrained weights ****** ')
-            model = build_default_model(model_name=self.model_name, num_classes=num_classes)
+            model = build_default_model(model_name=self.model_name, num_classes=num_classes,
+                                        model_path=train_model_path, pretrained=self.use_default_pretrained_model)
             # print(model)
             print('children:')
             freeze_first_n_children = self.model_cfg['freeze_first_n_children']
