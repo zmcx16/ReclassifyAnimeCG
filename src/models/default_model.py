@@ -23,11 +23,10 @@ class DefaultModel(abc.ABC):
         self.model_name = cfg_common['use_model_name']
         self.model_cfg = cfg_models_parameter[self.model_name]
         self.resume_epoch = self.model_cfg['resume_epoch']
-        model_url = self.model_cfg['model_url']
 
         save_folder = os.path.join(cfg_common['train_model_path'], cfg_common['use_model_name'])
         os.makedirs(save_folder, exist_ok=True)
-        train_model_path = os.path.join(save_folder, self.model_name+'.pth')
+        #train_model_path = os.path.join(save_folder, self.model_name+'.pth')
 
         index_label_path = os.path.join(cfg_common['label_path'], 'index.txt')
         with open(index_label_path,  'r')as f:
@@ -37,37 +36,24 @@ class DefaultModel(abc.ABC):
         if not self.model_cfg['resume_epoch']:
             print('****** Training {} ****** '.format(self.model_name))
             print('****** loading the Imagenet pretrained weights ****** ')
-            model = build_default_model(model_name=self.model_name, num_classes=num_classes,
-                                        model_path=train_model_path, model_url=model_url)
+            model = build_default_model(model_name=self.model_name, num_classes=num_classes)
             # print(model)
-            if self.model_name.startswith('efficientnet'):
-                print('parameters:')
-                freeze_first_n_parameters = self.model_cfg['freeze_first_n_parameters']
-                c = 0
-                for name, p in model.named_parameters():
+            print('children:')
+            freeze_first_n_children = self.model_cfg['freeze_first_n_children']
+            freeze_first_n_parameters = self.model_cfg['freeze_first_n_parameters']
+            c = 0
+            ct = 0
+            for name_m, child in model.named_children():
+                ct += 1
+                print('child.named: ', name_m)
+                for name_p, param in child.named_parameters():
                     c += 1
-                    print(name)
-                    if c < freeze_first_n_parameters:
-                        p.requires_grad = False
+                    print('parameter.named: ', name_p)
+                    if ct < freeze_first_n_children or c < freeze_first_n_parameters:
+                        param.requires_grad = False
 
-                print('total parameters: ', c)
-            else:
-                print('children:')
-                freeze_first_n_children = self.model_cfg['freeze_first_n_children']
-                freeze_first_n_parameters = self.model_cfg['freeze_first_n_parameters']
-                c = 0
-                ct = 0
-                for name_m, child in model.named_children():
-                    ct += 1
-                    print('child.named: ', name_m)
-                    for name_p, param in child.named_parameters():
-                        c += 1
-                        print('parameter.named: ', name_p)
-                        if ct < freeze_first_n_children or c < freeze_first_n_parameters:
-                            param.requires_grad = False
-
-                print('total module children: ', ct)
-                print('total parameters: ', c)
+            print('total module children: ', ct)
+            print('total parameters: ', c)
             # print(model)
         if self.resume_epoch:
             print(' ******* Resume training from {}  epoch {} *********'.format(self.model_name, self.resume_epoch))

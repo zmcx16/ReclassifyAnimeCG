@@ -4,6 +4,6 @@ import abc
 class Model(abc.ABC):
 
     @abc.abstractmethod
-    def init(self, args):
-        print(args)
+    def load_model(self, cfg):
+        print(cfg)
         return NotImplemented

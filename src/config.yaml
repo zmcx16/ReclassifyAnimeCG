@@ -1,6 +1,6 @@
 config:
   common:
-    use_model_name: "googlenet"
+    use_model_name: "efficientnet_b3"
     use_gpu_num: 1
     train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
     train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
@@ -17,86 +17,7 @@ config:
     use_test_txt: true
     copy_predit_result_to_output_path: false
   models_parameter:
-    resnext101_32x8d:
-      model_url: "https://download.pytorch.org/models/ig_resnext101_32x8-c38310e5.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 2
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 6
-      freeze_first_n_parameters: 0
-    resnext101_32x16d:
-      model_url: "https://download.pytorch.org/models/ig_resnext101_32x16-c6f796b0.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 1
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 8
-      freeze_first_n_parameters: 0
-    resnext101_32x32d:
-      model_url: "https://download.pytorch.org/models/ig_resnext101_32x32-e4b90b00.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 1
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 0
-      freeze_first_n_parameters: 0
-    resnext101_32x48d:
-      model_url: "https://download.pytorch.org/models/ig_resnext101_32x48-3e41cc8a.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 1
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 0
-      freeze_first_n_parameters: 0
-    resnet50:
-      model_url: "https://download.pytorch.org/models/resnet50-19c8e357.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 8
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 0
-      freeze_first_n_parameters: 0
-    resnet101:
-      model_url: "https://download.pytorch.org/models/resnet101-5d3b4d8f.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_children: 0
-      freeze_first_n_parameters: 0
     alexnet:
-      model_url: "https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth"
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
       batch_size: 32
@@ -108,8 +29,31 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    moblienetv2:
-      model_url: "https://download.pytorch.org/models/mobilenet_v2-b0353104.pth"
+    densenet169: # [densenet121, densenet169, densenet201, densenet161]
+      optimizer_algo: 'SGD'
+      loss_algo: 'CrossEntropyLoss'
+      batch_size: 4
+      image_input_size: 300
+      max_epoch: 25
+      resume_epoch: 0
+      weight_decay: 5.e-4
+      momentum: 0.9
+      lr: 1.e-3
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0
+    efficientnet_b3: # [efficientnet_b0, efficientnet_b1, efficientnet_b2, efficientnet_b3, efficientnet_b4, efficientnet_b5, efficientnet_b6, efficientnet_b7]
+      optimizer_algo: 'SGD'
+      loss_algo: 'CrossEntropyLoss'
+      batch_size: 4
+      image_input_size: 300
+      max_epoch: 50
+      resume_epoch: 0
+      weight_decay: 5.e-4
+      momentum: 0.9
+      lr: 1.e-3
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0
+    mnasnet1_0: # [mnasnet0_5, mnasnet0_75, mnasnet1_0, mnasnet1_3]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
       batch_size: 16
@@ -121,11 +65,10 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    densenet121:
-      model_url: "https://download.pytorch.org/models/densenet121-a639ec97.pth"
+    mobilenet_v3_large: # [mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 8
+      batch_size: 16
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
@@ -134,11 +77,10 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    densenet169:
-      model_url: "https://download.pytorch.org/models/densenet169-b2777c0a.pth"
+    regnet_x_32gf: # [regnet_y_400mf, regnet_y_800mf, regnet_y_1_6gf, regnet_y_3_2gf, regnet_y_8gf, regnet_y_16gf, regnet_y_32gf, regnet_x_400mf, regnet_x_800mf, regnet_x_1_6gf, regnet_x_3_2gf, regnet_x_8gf, regnet_x_16gf, regnet_x_32gf]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
+      batch_size: 1
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
@@ -147,68 +89,7 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    efficientnet-b0:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b0-355c32eb.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 8
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_parameters: 0
-    efficientnet-b1:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b1-f1951068.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 8
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_parameters: 0
-    efficientnet-b2:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b2-8bb594d6.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_parameters: 0
-    efficientnet-b3:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b3-5fb5a3c3.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_parameters: 0
-    efficientnet-b4:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b4-6ed6700e.pth"
-      optimizer_algo: 'SGD'
-      loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
-      image_input_size: 300
-      max_epoch: 25
-      resume_epoch: 0
-      weight_decay: 5.e-4
-      momentum: 0.9
-      lr: 1.e-3
-      freeze_first_n_parameters: 0
-    efficientnet-b5:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b5-b6417697.pth"
+    resnext50_32x4d: # [resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
       batch_size: 2
@@ -218,28 +99,41 @@ config:
       weight_decay: 5.e-4
       momentum: 0.9
       lr: 1.e-3
+      freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    efficientnet-b6:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b6-c76e70fd.pth"
+    shufflenet_v2_x2_0: # [shufflenet_v2_x0_5, shufflenet_v2_x1_0, shufflenet_v2_x1_5, shufflenet_v2_x2_0]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 2
+      batch_size: 16
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
       weight_decay: 5.e-4
       momentum: 0.9
       lr: 1.e-3
-      freeze_first_n_parameters: 267
-    efficientnet-b7:
-      model_url: "https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b7-dcc49843.pth"
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0
+    squeezenet1_1: # [squeezenet1_0, squeezenet1_1]
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 4
+      batch_size: 16
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
       weight_decay: 5.e-4
       momentum: 0.9
       lr: 1.e-3
-      freeze_first_n_parameters: 381
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0
+    vgg11: # [vgg11, vgg13, vgg16, vgg19, vgg11_bn, vgg13_bn, vgg16_bn, vgg19_bn]
+      optimizer_algo: 'SGD'
+      loss_algo: 'CrossEntropyLoss'
+      batch_size: 1
+      image_input_size: 300
+      max_epoch: 25
+      resume_epoch: 0
+      weight_decay: 5.e-4
+      momentum: 0.9
+      lr: 1.e-3
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0

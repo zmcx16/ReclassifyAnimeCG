@@ -1,13 +1,11 @@
 import sys
 import os
-import pathlib
-import torch
 import torch.nn as nn
 import torch.optim as optim
 
 from data import *
 from config import Config
-from utils import adjust_learning_rate_cosine, adjust_learning_rate_step
+from utils import adjust_learning_rate_step
 from models.default_model import DefaultModel
 
 
@@ -127,8 +125,6 @@ if __name__ == "__main__":
 
         out = model(images)
 
-        # fix RuntimeError: Expected object of scalar type Long but got scalar type Int for argument #2 'target' in call to _thnn_nll_loss_forward
-        # https://blog.csdn.net/skj1995/article/details/103057409
         labels = labels.to(dtype=torch.int64)
         # labels = torch.tensor(labels, dtype=torch.long)
 
