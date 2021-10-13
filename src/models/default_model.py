@@ -40,7 +40,7 @@ class DefaultModel(abc.ABC):
             model = build_default_model(model_name=self.model_name, num_classes=num_classes,
                                         model_path=train_model_path, model_url=model_url)
             # print(model)
-            if self.model_name.startswith('efficientnet') or self.model_name.startswith('moblienet'):
+            if self.model_name.startswith('efficientnet'):
                 print('parameters:')
                 freeze_first_n_parameters = self.model_cfg['freeze_first_n_parameters']
                 c = 0

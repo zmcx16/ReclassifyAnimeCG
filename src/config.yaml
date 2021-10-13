@@ -1,6 +1,6 @@
 config:
   common:
-    use_model_name: "resnext101_32x8d"
+    use_model_name: "googlenet"
     use_gpu_num: 1
     train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
     train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
@@ -95,8 +95,8 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    moblienetv2:
-      model_url: "https://download.pytorch.org/models/mobilenet_v2-b0353104.pth"
+    alexnet:
+      model_url: "https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth"
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
       batch_size: 32
@@ -106,6 +106,20 @@ config:
       weight_decay: 5.e-4
       momentum: 0.9
       lr: 1.e-3
+      freeze_first_n_children: 0
+      freeze_first_n_parameters: 0
+    moblienetv2:
+      model_url: "https://download.pytorch.org/models/mobilenet_v2-b0353104.pth"
+      optimizer_algo: 'SGD'
+      loss_algo: 'CrossEntropyLoss'
+      batch_size: 16
+      image_input_size: 300
+      max_epoch: 25
+      resume_epoch: 0
+      weight_decay: 5.e-4
+      momentum: 0.9
+      lr: 1.e-3
+      freeze_first_n_children: 0
       freeze_first_n_parameters: 0
     densenet121:
       model_url: "https://download.pytorch.org/models/densenet121-a639ec97.pth"

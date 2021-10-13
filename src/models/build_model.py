@@ -4,7 +4,7 @@ import torch
 import requests
 from collections import OrderedDict
 from models import resnext101_32x8d_wsl, resnext101_32x16d_wsl, resnext101_32x32d_wsl, resnext101_32x48d_wsl \
-    , resnet50, resnet101, densenet121, densenet169, mobilenet_v2, EfficientNet
+    , resnet50, resnet101, densenet121, densenet169, mobilenet_v2, alexnet, googlenet, EfficientNet
 
 
 ModelFuncDict = {
@@ -14,9 +14,11 @@ ModelFuncDict = {
     'resnext101_32x48d': resnext101_32x48d_wsl,
     'resnet50': resnet50,
     'resnet101': resnet101,
+    'alexnet': alexnet,
     'moblienetv2': mobilenet_v2,
     'densenet121': densenet121,
     'densenet169': densenet169,
+    'densenet121': densenet121,
     'efficientnet-b0': EfficientNet,
     'efficientnet-b1': EfficientNet,
     'efficientnet-b2': EfficientNet,
@@ -35,12 +37,20 @@ def download(url, path):
 
 
 def build_default_model(num_classes, model_name, model_path, model_url, test=False):
-    if model_name.startswith('efficientnet'):
-        return build_efficientnet_model(num_classes, model_name, model_path, model_url, test=False)
-    elif model_name.startswith('resn'):
-        return build_resnet_resnext_model(num_classes, model_name, model_path, model_url, test=False)
-    elif model_name.startswith('densenet'):
-        return build_densenet_model(num_classes, model_name, model_path, model_url, test=False)
+
+    # wrapper the build model to always use pretraining model
+    # (don't want to modify pytorch model code and don't want download pretraining model everytime)
+    build_model_search_pattern_mapping_func_dict = {
+        'resn': build_resnet_resnext_model,
+        'alexnet': build_alexnet_model,
+        'moblienet': build_moblienet_model,
+        'densenet': build_densenet_model,
+        'efficientnet': build_efficientnet_model
+    }
+
+    for search_key in build_model_search_pattern_mapping_func_dict:
+        if model_name.startswith(search_key):
+            return build_model_search_pattern_mapping_func_dict[search_key](num_classes, model_name, model_path, model_url, test=False)
 
     print('Not mapping expect model')
     return None
@@ -100,4 +110,45 @@ def build_densenet_model(num_classes, model_name, model_path, model_url, test=Fa
 
     fc_features = model.classifier.in_features
     model.classifier = nn.Linear(fc_features, num_classes)
+    return model
+
+
+def build_moblienet_model(num_classes, model_name, model_path, model_url, test=False):
+    model = ModelFuncDict[model_name]()
+    if not test:
+        if not os.path.isfile(model_path):
+            print('download model from ', model_url)
+            download(model_url, model_path)
+
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict)
+
+    model.classifier = nn.Sequential(
+        nn.Dropout(0.2),
+        nn.Linear(model.last_channel, num_classes),
+    )
+
+    return model
+
+
+def build_alexnet_model(num_classes, model_name, model_path, model_url, test=False):
+    model = ModelFuncDict[model_name]()
+    if not test:
+        if not os.path.isfile(model_path):
+            print('download model from ', model_url)
+            download(model_url, model_path)
+
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict)
+
+    model.classifier = nn.Sequential(
+        nn.Dropout(),
+        nn.Linear(256 * 6 * 6, 4096),
+        nn.ReLU(inplace=True),
+        nn.Dropout(),
+        nn.Linear(4096, 4096),
+        nn.ReLU(inplace=True),
+        nn.Linear(4096, num_classes),
+    )
+
     return model
