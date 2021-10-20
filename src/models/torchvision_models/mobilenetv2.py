@@ -180,6 +180,12 @@ class MobileNetV2(nn.Module):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.zeros_(m.bias)
 
+    def set_classifier(self, num_classes, dropout: float = 0.2):
+        self.classifier = nn.Sequential(
+            nn.Dropout(p=dropout),
+            nn.Linear(self.last_channel, num_classes),
+        )
+
     def _forward_impl(self, x: Tensor) -> Tensor:
         # This exists since TorchScript doesn't support inheritance, so the superclass method
         # (this one) needs to have a name other than `forward` that can be accessed in a subclass

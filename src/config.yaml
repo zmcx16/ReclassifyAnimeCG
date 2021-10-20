@@ -1,6 +1,6 @@
 config:
   common:
-    use_model_name: "alexnet"
+    use_model_name: "resnext50_32x4d"
     use_gpu_num: 1
     train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
     train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
@@ -43,7 +43,7 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    efficientnet_b3: # [efficientnet_b0, efficientnet_b1, efficientnet_b2, efficientnet_b3, efficientnet_b4, efficientnet_b5, efficientnet_b6, efficientnet_b7]
+    efficientnet-b3: # [efficientnet-b0, efficientnet-b1, efficientnet-b2, efficientnet-b3, efficientnet-b4, efficientnet-b5, efficientnet-b6, efficientnet-b7]
       use_default_pretrained_model: true
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
@@ -69,7 +69,7 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    mobilenet_v3_large: # [mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small]
+    mobilenet_v2: # [mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small]
       use_default_pretrained_model: true
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
