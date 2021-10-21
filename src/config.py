@@ -17,7 +17,7 @@ class Config:
         else:
             self.cfg_path = cfg_path
 
-        with open(self.cfg_path, "r") as stream:
+        with open(self.cfg_path, "r", encoding="utf-8") as stream:
             self.cfg = yaml.load(stream, Loader=yaml.FullLoader)
 
     def show(self):

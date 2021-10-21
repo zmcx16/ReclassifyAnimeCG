@@ -13,7 +13,7 @@ class CustomDataset(Dataset):
     transform = None
 
     def __init__(self, label_file, image_set, input_size):
-        with open(label_file, 'r') as f:
+        with open(label_file, 'r', encoding="utf-8") as f:
             self.imgs = list(map(lambda line: line.strip().split('|'), f))
 
         if image_set == 'train':

@@ -30,7 +30,7 @@ class DefaultModel(abc.ABC):
         train_model_path = os.path.join(save_folder, self.model_name+'.pth')
 
         index_label_path = os.path.join(cfg_common['label_path'], 'index.txt')
-        with open(index_label_path,  'r')as f:
+        with open(index_label_path, 'r', encoding="utf-8")as f:
             num_classes = len(f.readlines())
 
         # build the network model

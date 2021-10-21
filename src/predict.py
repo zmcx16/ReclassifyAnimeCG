@@ -1,6 +1,8 @@
 import glob
 import os
 import shutil
+import json
+import binascii
 
 import pandas as pd
 import torch
@@ -60,13 +62,20 @@ if __name__ == "__main__":
     cfg = Config()
     cfg.show()
     cfg_common = cfg.get()['config']['common']
-    cfg_predidt = cfg.get()['config']['predidt']
+    cfg_predict = cfg.get()['config']['predict']
     cfg_models_parameter = cfg.get()['config']['models_parameter']
-
 
     label_path = cfg_common['label_path']
     index_label_path = os.path.join(label_path, 'index.txt')
-    copy_predit_result_to_output_path = cfg_predidt['copy_predit_result_to_output_path']
+    copy_predict_result_to_output_path = cfg_predict['copy_predict_result_to_output_path']
+
+    ignore_predict_file_in_training_data_info = cfg_predict['ignore_predict_file_in_training_data_info']
+    if ignore_predict_file_in_training_data_info:
+        train_info_path = os.path.join(label_path, 'train_info.json')
+        with open(train_info_path, 'r', encoding='utf-8') as f:
+            train_info = json.loads(f.read())
+            training_data_crc32_hashset = set(train_info['training_data_crc32_list'])
+
     output_data_path = cfg_common['output_data_path']
 
     model_name = cfg_common['use_model_name']
@@ -75,10 +84,10 @@ if __name__ == "__main__":
     trained_model_path = os.path.join(model_folder, 'final.pth')
     image_input_size = model_cfg['image_input_size']
 
-    predict_use_test_txt = cfg_predidt['use_test_txt']
+    predict_use_test_txt = cfg_predict['use_test_txt']
     if predict_use_test_txt:
         test_label_path = os.path.join(label_path, 'test.txt')
-        with open(test_label_path,  'r')as f:
+        with open(test_label_path,  'r', encoding="utf-8")as f:
             imgs = f.readlines()
     else:
         # generate imgs list
@@ -89,6 +98,13 @@ if __name__ == "__main__":
 
         imgs = []
         for img in img_list:
+            if ignore_predict_file_in_training_data_info:
+                with open(img, 'rb') as f_img:
+                    crc32 = binascii.crc32(f_img.read())
+                if crc32 in training_data_crc32_hashset:
+                    print('ignore {} due to crc32 collision'.format(img))
+                    continue
+
             imgs.append(img + '|' + str(-1))
 
     img_path_list, predict_list, actual_list, correct_num = predict(trained_model_path, imgs, image_input_size)
@@ -105,10 +121,10 @@ if __name__ == "__main__":
     if predict_use_test_txt:
         print('ACC: %.2f' % (correct_num * 100.0 / len(imgs))+'%')
 
-    if copy_predit_result_to_output_path:
+    if copy_predict_result_to_output_path:
         print('copy all predict images to output')
         label_dict = {}
-        with open(index_label_path,  'r')as f:
+        with open(index_label_path, 'r', encoding="utf-8")as f:
             for line in f:
                 label_index, label_text = line.split('|')
                 label_dict[label_index] = label_text.strip()

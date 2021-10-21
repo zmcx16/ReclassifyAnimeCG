@@ -24,7 +24,7 @@ from .torchvision_models.vgg import vgg11, vgg13, vgg16, vgg19, vgg11_bn, vgg13_
 
 def download(url, path):
     r = requests.get(url)
-    with open(path, 'wb') as f:
+    with open(path, 'wb', encoding="utf-8") as f:
         f.write(r.content)
 
 
