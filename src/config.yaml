@@ -16,7 +16,8 @@ config:
   predict:
     use_test_txt: true
     ignore_predict_file_in_training_data_info: true # only work when use_test_txt=false & train_info.json exist (save_training_data_info_in_txt=true)
-    copy_predict_result_to_output_path: false
+    copy_predict_result_to_output_path: true
+    copy_predict_result_to_symbolic_link: false
   models_parameter:
     alexnet:
       use_default_pretrained_model: true

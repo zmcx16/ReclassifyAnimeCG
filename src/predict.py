@@ -68,6 +68,7 @@ if __name__ == "__main__":
     label_path = cfg_common['label_path']
     index_label_path = os.path.join(label_path, 'index.txt')
     copy_predict_result_to_output_path = cfg_predict['copy_predict_result_to_output_path']
+    copy_predict_result_to_symbolic_link = cfg_predict['copy_predict_result_to_symbolic_link']
 
     ignore_predict_file_in_training_data_info = cfg_predict['ignore_predict_file_in_training_data_info']
     if ignore_predict_file_in_training_data_info:
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     pd.set_option('display.width', None)
     submission = pd.DataFrame({"img_path_list": img_path_list, "predict": predict_list, "actual": actual_list})
     print(submission)
-    #submission.to_csv(cfg.BASE + '{}_submission.csv'.format(model_name), index=False, header=False)
+    # submission.to_csv(cfg.BASE + '{}_submission.csv'.format(model_name), index=False, header=False)
 
     print()
     if predict_use_test_txt:
@@ -142,4 +143,7 @@ if __name__ == "__main__":
                 duplicate_text = ' (' + str(duplicate_i) + ')'
 
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            shutil.copy(img_path, output_path)
+            if copy_predict_result_to_symbolic_link:
+                os.symlink(img_path, output_path)
+            else:
+                shutil.copy(img_path, output_path)
