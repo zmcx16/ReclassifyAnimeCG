@@ -2,6 +2,7 @@ import sys
 import os
 import torch.nn as nn
 import torch.optim as optim
+import time
 
 from data import *
 from config import Config
@@ -25,6 +26,8 @@ def save_model(use_gpu_num, model, save_path):
 
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
+
     print('load config')
     cfg = Config()
     cfg.show()
@@ -148,3 +151,6 @@ if __name__ == "__main__":
             min_loss = loss_val
             print('got min loss {}, update the final.pth'.format(min_loss))
             save_model(use_gpu_num, model, os.path.join(save_folder, 'final.pth'))
+
+    seconds = time.time() - start_time
+    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(seconds)))

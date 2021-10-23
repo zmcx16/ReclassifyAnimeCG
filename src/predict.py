@@ -3,6 +3,7 @@ import os
 import shutil
 import json
 import binascii
+import time
 
 import pandas as pd
 import torch
@@ -57,7 +58,7 @@ def predict(model, imgs, image_input_size):
 
 
 if __name__ == "__main__":
-
+    start_time = time.perf_counter()
     print('load config')
     cfg = Config()
     cfg.show()
@@ -95,7 +96,7 @@ if __name__ == "__main__":
         predict_data_path = cfg_common['predict_data_path']
         img_list = []
         for file_type in ('*.png', '*.jpg', '*.bmp'):
-            img_list.extend(glob.iglob(os.path.join(predict_data_path, file_type)))
+            img_list.extend(glob.iglob(os.path.join(predict_data_path + '/**/', file_type), recursive=True))
 
         imgs = []
         for img in img_list:
@@ -147,3 +148,6 @@ if __name__ == "__main__":
                 os.symlink(img_path, output_path)
             else:
                 shutil.copy(img_path, output_path)
+
+    seconds = time.time() - start_time
+    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(seconds)))
