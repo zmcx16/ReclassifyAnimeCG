@@ -19,6 +19,7 @@ if __name__ == '__main__':
 
     train_ratio = cfg_preprocess['train_ratio']
     save_training_data_info_in_txt = cfg_preprocess['save_training_data_info_in_txt']
+    not_add_duplicate_images_on_training_data_txt = cfg_preprocess['not_add_duplicate_images_on_training_data_txt']
 
     index_label_path = os.path.join(label_path, 'index.txt')
     if os.path.isfile(index_label_path):
@@ -29,6 +30,7 @@ if __name__ == '__main__':
         os.remove(train_label_path)
 
     train_info = {'training_data_crc32_list': []}
+    training_data_crc32_set = set()
     train_info_path = os.path.join(label_path, 'train_info.json')
     if os.path.isfile(train_info_path):
         os.remove(train_info_path)
@@ -38,6 +40,7 @@ if __name__ == '__main__':
         os.remove(test_label_path)
 
     total_images = 0
+    ignore_images = 0
     print('\ngenerate data index files:')
     for index, label in enumerate(labels):
         with open(index_label_path, 'a', encoding="utf-8") as f:
@@ -59,14 +62,21 @@ if __name__ == '__main__':
 
         with open(train_label_path, 'a', encoding="utf-8") as f:
             for img in train_list:
-                f.write(img + '|' + str(index))
-                f.write('\n')
+                add_file = True
+                if save_training_data_info_in_txt:
+                    with open(img, 'rb') as f_img:
+                        crc32 = binascii.crc32(f_img.read())
+                        if crc32 not in training_data_crc32_set:
+                            training_data_crc32_set.add(crc32)
+                            train_info['training_data_crc32_list'].append(crc32)
+                        else:
+                            print('ignore {} due to crc32 collision'.format(img))
+                            add_file = False
+                            ignore_images+=1
 
-        if save_training_data_info_in_txt:
-            for img in train_list:
-                with open(img, 'rb') as f_img:
-                    crc32 = binascii.crc32(f_img.read())
-                train_info['training_data_crc32_list'].append(crc32)
+                if add_file:
+                    f.write(img + '|' + str(index))
+                    f.write('\n')
 
         with open(test_label_path, 'a', encoding="utf-8") as f:
             for img in test_list:
@@ -77,5 +87,5 @@ if __name__ == '__main__':
         with open(train_info_path, 'w', encoding='utf-8') as f:
             f.write(json.dumps(train_info, separators=(',', ':')))
 
-    print('total images: ', total_images)
+    print('total images: ', total_images-ignore_images)
     print('\npreprocess done')

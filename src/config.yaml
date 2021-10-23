@@ -1,6 +1,6 @@
 config:
   common:
-    use_model_name: "alexnet"
+    use_model_name: "efficientnet-b3"
     use_gpu_num: 1
     train_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train"
     train_model_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/train_weight"
@@ -9,12 +9,12 @@ config:
     predict_data_path: "I:/work/WORK/ReclassifyAnimeCG/ReclassifyAnimeCG/data-sample/predict" # use when predict_use_test_txt = false
   preprocess:
     train_ratio: 0.7
-    delete_duplicate_images_on_training_data: true
     save_training_data_info_in_txt: true
+    not_add_duplicate_images_on_training_data_txt: true # only work when save_training_data_info_in_txt=true
   train:
     start_save_best_model: 0.7 # try to save best model when current epoch >= start_save_best_model * max_epoch
   predict:
-    use_test_txt: false
+    use_test_txt: true
     ignore_predict_file_in_training_data_info: true # only work when use_test_txt=false & train_info.json exist (save_training_data_info_in_txt=true)
     copy_predict_result_to_output_path: false
   models_parameter:
@@ -83,11 +83,11 @@ config:
       lr: 1.e-3
       freeze_first_n_children: 0
       freeze_first_n_parameters: 0
-    regnet_x_32gf: # [regnet_y_400mf, regnet_y_800mf, regnet_y_1_6gf, regnet_y_3_2gf, regnet_y_8gf, regnet_y_16gf, regnet_y_32gf, regnet_x_400mf, regnet_x_800mf, regnet_x_1_6gf, regnet_x_3_2gf, regnet_x_8gf, regnet_x_16gf, regnet_x_32gf]
+    regnet_x_16gf: # [regnet_y_400mf, regnet_y_800mf, regnet_y_1_6gf, regnet_y_3_2gf, regnet_y_8gf, regnet_y_16gf, regnet_y_32gf, regnet_x_400mf, regnet_x_800mf, regnet_x_1_6gf, regnet_x_3_2gf, regnet_x_8gf, regnet_x_16gf, regnet_x_32gf]
       use_default_pretrained_model: true
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 1
+      batch_size: 2
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
@@ -100,7 +100,7 @@ config:
       use_default_pretrained_model: true
       optimizer_algo: 'SGD'
       loss_algo: 'CrossEntropyLoss'
-      batch_size: 2
+      batch_size: 4
       image_input_size: 300
       max_epoch: 25
       resume_epoch: 0
