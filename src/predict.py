@@ -71,12 +71,19 @@ if __name__ == "__main__":
     copy_predict_result_to_output_path = cfg_predict['copy_predict_result_to_output_path']
     copy_predict_result_to_symbolic_link = cfg_predict['copy_predict_result_to_symbolic_link']
 
+    # get crc32 info
     ignore_predict_file_in_training_data_info = cfg_predict['ignore_predict_file_in_training_data_info']
     if ignore_predict_file_in_training_data_info:
         train_info_path = os.path.join(label_path, 'train_info.json')
         with open(train_info_path, 'r', encoding='utf-8') as f:
             train_info = json.loads(f.read())
             training_data_crc32_hashset = set(train_info['training_data_crc32_list'])
+
+    predict_info_path = os.path.join(label_path, 'predict_info.json')
+    predict_info = {'predict_data_crc32_list': {}}
+    if os.path.isfile(predict_info_path):
+        with open(predict_info_path, 'r', encoding='utf-8') as f:
+            predict_info = json.loads(f.read())
 
     output_data_path = cfg_common['output_data_path']
 
@@ -93,6 +100,7 @@ if __name__ == "__main__":
             imgs = f.readlines()
     else:
         # generate imgs list
+        print('generate imgs list...')
         predict_data_path = cfg_common['predict_data_path']
         img_list = []
         for file_type in ('*.png', '*.jpg', '*.bmp'):
@@ -101,14 +109,23 @@ if __name__ == "__main__":
         imgs = []
         for img in img_list:
             if ignore_predict_file_in_training_data_info:
-                with open(img, 'rb') as f_img:
-                    crc32 = binascii.crc32(f_img.read())
+                if img in predict_info['predict_data_crc32_list']: # get crc32 from info file
+                    crc32 = predict_info['predict_data_crc32_list'][img]
+                else:
+                    with open(img, 'rb') as f_img:
+                        crc32 = binascii.crc32(f_img.read())
+                        predict_info['predict_data_crc32_list'][img] = crc32
+
                 if crc32 in training_data_crc32_hashset:
                     print('ignore {} due to crc32 collision'.format(img))
                     continue
 
             imgs.append(img + '|' + str(-1))
 
+    with open(predict_info_path, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(predict_info, separators=(',', ':')))
+
+    print('run predict...')
     img_path_list, predict_list, actual_list, correct_num = predict(trained_model_path, imgs, image_input_size)
 
     pd.set_option('display.max_columns', None)
