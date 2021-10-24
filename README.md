@@ -69,7 +69,7 @@ config:
 3. Run the train.py (ReclassifyAnimeCG/src/train.py), the train.py will train the model and store on train_model_path
 4. Run the predict.py (ReclassifyAnimeCG/src/predict.py), the predict.py will predict the images / copy the image to output base on the config.yaml setting.
 5. (Optional) If you want to organize your images rather than turn the classifier model, check the output images, delete the wrong predict result on the output, and then copy the output to your training data folder
-6. Jump to Step2, keep going until you organize your images completed.
+6. (Optional) Jump to Step2, keep going until you organize your images completed.
 
 Note. If you set copy_predict_result_use_symbolic_link=true, the Windows OS system can't preview images on File explorer, if you want to organize predict result easily, I recommand the [FastStone Image Viewer](https://www.faststone.org/FSViewerDetail.htm) tool, it can view the image file easily even the image file is symbolic link.
 
