@@ -86,6 +86,7 @@ Evaluation model performance using the ReclassifyAnimeCG data-sample (tr: 225 ts
 | resnext50_32x4d |92|
 | shufflenet_v2_x2_0 |44|
 | squeezenet1_1 |87|
+
 For the PyTorch default model evaluation, reference: 
 https://pytorch.org/vision/stable/models.html#classification
 
