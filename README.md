@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e1c5c6bc5a7e4299b6e36db92aea9206)](https://app.codacy.com/gh/zmcx16/ReclassifyAnimeCG?utm_source=github.com&utm_medium=referral&utm_content=zmcx16/ReclassifyAnimeCG&utm_campaign=Badge_Grade_Settings)
 
-Using PyTorch to reclassify & organize your anime cg folders, The PyTorch skeleton code of this repository is base on [lxztju / pytorch_classification](https://github.com/lxztju/pytorch_classification) and make the user can setup environment and use PyTorch vision defult model easily.
+Using PyTorch to reclassify & organize your anime cg, The PyTorch skeleton code of this repository is base on [lxztju / pytorch_classification](https://github.com/lxztju/pytorch_classification) and make the user can setup environment and use PyTorch vision defult model easily.
 Besides, This tool support the useful function to make the user can easy organize the classified image files.
 
 # Requirements
