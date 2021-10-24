@@ -30,7 +30,7 @@ def download(url, path):
 
 # wrapper the build model to always use pretraining model
 # (don't want to modify pytorch model code and don't want download pretraining model everytime)
-def build_default_model(num_classes, model_name, model_path, pretrained=True, test=False):
+def build_default_model(num_classes, model_name, model_path, pretrained=True, final_model=None, test=False):
     build_model_dict = {
         'alexnet': {"model_param": {"model": alexnet, "url": alexnet_model_urls["alexnet"]}, "build_func": build_alexnet_model},
         "densenet121": {"model_param": {"model": densenet121, "url": densenet_model_urls["densenet121"]}, "build_func": build_densenet_model},
@@ -92,19 +92,19 @@ def build_default_model(num_classes, model_name, model_path, pretrained=True, te
     }
     if model_name in build_model_dict:
         return build_model_dict[model_name]["build_func"](num_classes, model_path,
-                                                              build_model_dict[model_name]["model_param"], pretrained, test)
+                                                              build_model_dict[model_name]["model_param"], pretrained, final_model, test)
 
     print('Not mapping expect model')
     return None
 
 
-def build_alexnet_model(num_classes, model_path, model_param, pretrained, test):
+def build_alexnet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -125,13 +125,13 @@ def build_alexnet_model(num_classes, model_path, model_param, pretrained, test):
     return model
 
 
-def build_densenet_model(num_classes, model_path, model_param, pretrained, test):
+def build_densenet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -155,11 +155,11 @@ def build_densenet_model(num_classes, model_path, model_param, pretrained, test)
     return model
 
 
-def build_efficientnet_model(num_classes, model_path, model_param, pretrained, test):
+def build_efficientnet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
     model_name = model_param["name"]
     model = model_param["model"].from_name(model_name)
-    if not test or not pretrained or not model_url:
+    if not final_model and (not test or not pretrained or not model_url):
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -172,13 +172,13 @@ def build_efficientnet_model(num_classes, model_path, model_param, pretrained, t
     return model
 
 
-def build_mnasnet_model(num_classes, model_path, model_param, pretrained, test):
+def build_mnasnet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -190,13 +190,13 @@ def build_mnasnet_model(num_classes, model_path, model_param, pretrained, test):
     return model
 
 
-def build_moblienet_model(num_classes, model_path, model_param, pretrained, test):
+def build_moblienet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -208,13 +208,13 @@ def build_moblienet_model(num_classes, model_path, model_param, pretrained, test
     return model
 
 
-def build_regnet_model(num_classes, model_path, model_param, pretrained, test):
+def build_regnet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -226,13 +226,13 @@ def build_regnet_model(num_classes, model_path, model_param, pretrained, test):
     return model
 
 
-def build_resnet_resnext_model(num_classes, model_path, model_param, pretrained, test):
+def build_resnet_resnext_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -245,13 +245,13 @@ def build_resnet_resnext_model(num_classes, model_path, model_param, pretrained,
     return model
 
 
-def build_shufflenet_model(num_classes, model_path, model_param, pretrained, test):
+def build_shufflenet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -263,13 +263,13 @@ def build_shufflenet_model(num_classes, model_path, model_param, pretrained, tes
     return model
 
 
-def build_squeezenet_model(num_classes, model_path, model_param, pretrained, test):
+def build_squeezenet_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)
@@ -283,13 +283,13 @@ def build_squeezenet_model(num_classes, model_path, model_param, pretrained, tes
     return model
 
 
-def build_vgg_model(num_classes, model_path, model_param, pretrained, test):
+def build_vgg_model(num_classes, model_path, model_param, pretrained, final_model, test):
     model_url = model_param["url"]
-    if not pretrained or not model_url:
+    if not final_model and (not pretrained or not model_url):
         return model_param["model"](num_classes=num_classes)
 
     model = model_param["model"]()
-    if not test:
+    if not final_model and not test:
         if not os.path.isfile(model_path):
             print('download model from ', model_url)
             download(model_url, model_path)

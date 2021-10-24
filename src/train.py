@@ -152,5 +152,4 @@ if __name__ == "__main__":
             print('got min loss {}, update the final.pth'.format(min_loss))
             save_model(use_gpu_num, model, os.path.join(save_folder, 'final.pth'))
 
-    seconds = time.time() - start_time
-    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(seconds)))
+    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(time.perf_counter() - start_time)))

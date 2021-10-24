@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     train_ratio = cfg_preprocess['train_ratio']
     save_training_data_info_in_txt = cfg_preprocess['save_training_data_info_in_txt']
-    not_add_duplicate_images_on_training_data_txt = cfg_preprocess['not_add_duplicate_images_on_training_data_txt']
+    delete_duplicate_images_on_training_data = cfg_preprocess['delete_duplicate_images_on_training_data']
 
     index_label_path = os.path.join(label_path, 'index.txt')
     if os.path.isfile(index_label_path):
@@ -72,7 +72,10 @@ if __name__ == '__main__':
                         else:
                             print('ignore {} due to crc32 collision'.format(img))
                             add_file = False
-                            ignore_images+=1
+                            ignore_images += 1
+                            if delete_duplicate_images_on_training_data:
+                                print('delete duplicate file: ', img)
+                                os.remove(img)
 
                 if add_file:
                     f.write(img + '|' + str(index))

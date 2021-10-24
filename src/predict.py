@@ -69,7 +69,7 @@ if __name__ == "__main__":
     label_path = cfg_common['label_path']
     index_label_path = os.path.join(label_path, 'index.txt')
     copy_predict_result_to_output_path = cfg_predict['copy_predict_result_to_output_path']
-    copy_predict_result_to_symbolic_link = cfg_predict['copy_predict_result_to_symbolic_link']
+    copy_predict_result_use_symbolic_link = cfg_predict['copy_predict_result_use_symbolic_link']
 
     # get crc32 info
     ignore_predict_file_in_training_data_info = cfg_predict['ignore_predict_file_in_training_data_info']
@@ -161,10 +161,9 @@ if __name__ == "__main__":
                 duplicate_text = ' (' + str(duplicate_i) + ')'
 
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            if copy_predict_result_to_symbolic_link:
+            if copy_predict_result_use_symbolic_link:
                 os.symlink(img_path, output_path)
             else:
                 shutil.copy(img_path, output_path)
 
-    seconds = time.time() - start_time
-    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(seconds)))
+    print('Time Taken:', time.strftime("%H:%M:%S", time.gmtime(time.perf_counter() - start_time)))
